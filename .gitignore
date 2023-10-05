@@ -145,3 +145,7 @@ web
 *.pyc
 .vscode
 .idea
+
+# data folders to be ignored
+data_plane/
+
