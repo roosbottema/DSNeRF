@@ -834,8 +834,8 @@ def train():
             print('get depth rays')
             rays_depth_list = []
             print(f"poses: {poses}")
-            print(f"depth_dts keys: {depth_gts.keys()}")
-            print(f"depth_dts values: {depth_gts.values()}")
+            print(f"depth_dts length {len(depth_gts)}, depth_gts: {depth_gts}")
+            
 
             for i in i_train:
                 try:
