@@ -148,4 +148,4 @@ web
 
 # data folders to be ignored
 data_plane/
-
+debug/
