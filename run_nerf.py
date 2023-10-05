@@ -835,7 +835,7 @@ def train():
             rays_depth_list = []
             print(f"poses: {poses}")
             print(f"depth_dts length {len(depth_gts)}, depth_gts: {depth_gts}")
-            
+
 
             for i in i_train:
                 try:
@@ -932,7 +932,7 @@ def train():
             target = images[img_i]
             pose = poses[img_i, :3,:4]
 
-            if N_rand is not None:
+            if args.N_rand is not None:
                 rays_o, rays_d = get_rays(H, W, focal, torch.Tensor(pose))  # (H, W, 3), (H, W, 3)
 
                 if i < args.precrop_iters:
