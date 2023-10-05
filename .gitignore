@@ -149,3 +149,7 @@ web
 # data folders to be ignored
 data_plane/
 debug/
+
+#configs to be ignored
+configs/
+
