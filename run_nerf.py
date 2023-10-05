@@ -833,8 +833,18 @@ def train():
         if args.colmap_depth:
             print('get depth rays')
             rays_depth_list = []
+            print(f"poses: {poses}")
+            print(f"depth_dts keys: {depth_gts.keys()}")
+            print(f"depth_dts values: {depth_gts.values()}")
+
             for i in i_train:
-                rays_depth = np.stack(get_rays_by_coord_np(H, W, focal, poses[i,:3,:4], depth_gts[i]['coord']), axis=0) # 2 x N x 3
+                try:
+                    rays_depth = np.stack(get_rays_by_coord_np(H, W, focal, poses[i,:3,:4], depth_gts[i]['coord']), axis=0) # 2 x N x 3
+                except Exception as error:
+                    print(error)
+                    print(f"Iteration where it broke is {i}")
+                    print(f"trying to access poses: {poses[i, :]}")
+                    print(f"trying to access depth_gts: {depth_gts[i, :]}")
                 # print(rays_depth.shape)
                 rays_depth = np.transpose(rays_depth, [1,0,2])
                 depth_value = np.repeat(depth_gts[i]['depth'][:,None,None], 3, axis=2) # N x 1 x 3
