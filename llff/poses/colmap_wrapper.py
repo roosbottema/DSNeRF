@@ -21,7 +21,7 @@ import subprocess
 
 # $ mkdir $DATASET_PATH/dense
 def run_colmap(basedir, match_type):
-    
+    print("running colmap")
     logfile_name = os.path.join(basedir, 'colmap_output.txt')
     logfile = open(logfile_name, 'w')
     

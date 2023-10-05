@@ -625,6 +625,7 @@ def config_parser():
 
 def train():
 
+    print(f"going into training with dataset type {args.dataset_type}")
     parser = config_parser()
     args = parser.parse_args()
 
@@ -650,7 +651,9 @@ def train():
             far = 1.
         print('NEAR FAR', near, far)
     elif args.dataset_type == 'llff':
+        print(f"#####################basedir: {args.datadir}")
         if args.colmap_depth:
+
             depth_gts = load_colmap_depth(args.datadir, factor=args.factor, bd_factor=.75)
         images, poses, bds, render_poses, i_test = load_llff_data(args.datadir, args.factor,
                                                                   recenter=True, bd_factor=.75,

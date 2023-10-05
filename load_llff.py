@@ -338,7 +338,8 @@ def get_poses(images):
 
 def load_colmap_depth(basedir, factor=8, bd_factor=.75):
     data_file = Path(basedir) / 'colmap_depth.npy'
-    
+    print(f"\n\nIn load_colmap_depth with directory {basedir}")
+
     images = read_images_binary(Path(basedir) / 'sparse' / '0' / 'images.bin')
     points = read_points3d_binary(Path(basedir) / 'sparse' / '0' / 'points3D.bin')
 
