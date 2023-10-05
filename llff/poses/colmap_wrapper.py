@@ -38,7 +38,8 @@ def run_colmap(basedir, match_type):
 
     exhaustive_matcher_args = [
         '/usr/bin/colmap', match_type,
-            '--database_path', os.path.join(basedir, 'database.db'), 
+            '--database_path', os.path.join(basedir, 'database.db'),
+        '--SiftExtraction.use_gpu', '0',
     ]
 
     match_output = ( subprocess.check_output(exhaustive_matcher_args, universal_newlines=True) )
