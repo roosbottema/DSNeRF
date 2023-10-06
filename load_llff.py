@@ -343,8 +343,10 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
 
     images = read_images_binary(Path(basedir) / 'sparse' / '0' / 'images.bin')
     points = read_points3d_binary(Path(basedir) / 'sparse' / '0' / 'points3D.bin')
+    print(f"type images {type(images)}")
+    print(f"type points {type(points)}")
 
-    if images is None:
+    if images.isempty():
         print(f"empty images")
     if points is None:
         print(f"empty points")
