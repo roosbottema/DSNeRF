@@ -403,7 +403,7 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
     np.save(data_file, data_list)
 
     print(f"done with load_colmap")
-    print(f"data list to return: {data_list}")
+    print(f"data list to return: {data_list[0:2]}")
     return data_list
 
 def load_sensor_depth(basedir, factor=8, bd_factor=.75):
