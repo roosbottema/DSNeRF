@@ -360,7 +360,7 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
 
     _, bds_raw, _ = _load_data(basedir, factor=factor) # factor=8 downsamples original imgs by 8x
     bds_raw = np.moveaxis(bds_raw, -1, 0).astype(np.float32)
-    print(f"type of bds_raw: {type(bds_raw)}")
+    print(f"bds_raw: {bds_raw}")
     # print(bds_raw.shape)
     # Rescale if bd_factor is provided
     sc = 1. if bd_factor is None else 1./(bds_raw.min() * bd_factor)
