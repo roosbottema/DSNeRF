@@ -380,15 +380,12 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
             if i == 1:
                 print(f"point 2D: {point2D}")
             if id_3D == -1:
-                print(f"id_3D == -1")
+                #print(f"id_3D == -1")
                 continue
             point3D = points[id_3D].xyz
             depth = (poses[id_im-1,:3,2].T @ (point3D - poses[id_im-1,:3,3])) * sc
-            if i == 1:
-                print(f"depth: {depth}")
-
             if depth < bds_raw[id_im-1,0] * sc or depth > bds_raw[id_im-1,1] * sc:
-                print(f"error in depth calc")
+                #print(f"error in depth calc")
                 continue
             err = points[id_3D].error
             weight = 2 * np.exp(-(err/Err_mean)**2)
