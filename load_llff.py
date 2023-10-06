@@ -346,10 +346,12 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
     print(f"type images {type(images)}")
     print(f"type points {type(points)}")
 
-    if images.isempty():
-        print(f"empty images")
-    if points is None:
-        print(f"empty points")
+    if images is not None:
+        print(f"images keys: {images.keys()}")
+        print(f"images values: {images.values()}\n\n")
+    if points is not None:
+        print(f"points keys: {points.keys()}")
+        print(f"points values: {points.values()}")
     Errs = np.array([point3D.error for point3D in points.values()])
     Err_mean = np.mean(Errs)
     print("Mean Projection Error:", Err_mean)
