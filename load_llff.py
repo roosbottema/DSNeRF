@@ -357,10 +357,11 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
     print("Mean Projection Error:", Err_mean)
     
     poses = get_poses(images)
+    print(f"poses: {poses}")
 
     _, bds_raw, _ = _load_data(basedir, factor=factor) # factor=8 downsamples original imgs by 8x
     bds_raw = np.moveaxis(bds_raw, -1, 0).astype(np.float32)
-    print(f"bds_raw: {bds_raw}")
+
     # print(bds_raw.shape)
     # Rescale if bd_factor is provided
     sc = 1. if bd_factor is None else 1./(bds_raw.min() * bd_factor)
@@ -385,7 +386,7 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
             depth = (poses[id_im-1,:3,2].T @ (point3D - poses[id_im-1,:3,3])) * sc
             #print(f"point3D: {point3D}")
             #print(f"depth: {depth}")
-            if depth < bds_raw[id_im-1,0] * sc or depth > bds_raw[id_im-1,1] * sc:
+            if depth < bds_raw[id_im-1,1] * sc or depth > bds_raw[id_im-1,0] * sc:
                 #print(f"error in depth calc")
                 continue
             err = points[id_3D].error
