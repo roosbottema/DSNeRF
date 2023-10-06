@@ -338,16 +338,22 @@ def get_poses(images):
 
 def load_colmap_depth(basedir, factor=8, bd_factor=.75):
     data_file = Path(basedir) / 'colmap_depth.npy'
-    print(f"\n\nIn load_colmap_depth with directory {basedir}")
+    print("---------------------------------------------------------------------------------------")
+    print(f"----------------\n\nIn load_colmap_depth with directory {basedir}---------------------")
 
     images = read_images_binary(Path(basedir) / 'sparse' / '0' / 'images.bin')
     points = read_points3d_binary(Path(basedir) / 'sparse' / '0' / 'points3D.bin')
 
+    if images is None:
+        print(f"empty images")
+    if points is None:
+        print(f"empty points")
     Errs = np.array([point3D.error for point3D in points.values()])
     Err_mean = np.mean(Errs)
     print("Mean Projection Error:", Err_mean)
     
     poses = get_poses(images)
+
     _, bds_raw, _ = _load_data(basedir, factor=factor) # factor=8 downsamples original imgs by 8x
     bds_raw = np.moveaxis(bds_raw, -1, 0).astype(np.float32)
     # print(bds_raw.shape)
@@ -384,6 +390,9 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
             print(id_im, len(depth_list))
     # json.dump(data_list, open(data_file, "w"))
     np.save(data_file, data_list)
+
+    print(f"done with load_colmap")
+    print(f"data list to return: {data_list}")
     return data_list
 
 def load_sensor_depth(basedir, factor=8, bd_factor=.75):
