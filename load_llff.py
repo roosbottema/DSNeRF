@@ -394,10 +394,10 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
             coord_list.append(point2D/factor)
             weight_list.append(weight)
         if len(depth_list) > 0:
-            print(id_im, len(depth_list), np.min(depth_list), np.max(depth_list), np.mean(depth_list))
+            #print(id_im, len(depth_list), np.min(depth_list), np.max(depth_list), np.mean(depth_list))
             data_list.append({"depth":np.array(depth_list), "coord":np.array(coord_list), "error":np.array(weight_list)})
         else:
-            print(id_im, len(depth_list))
+            #print(id_im, len(depth_list))
     # json.dump(data_list, open(data_file, "w"))
     np.save(data_file, data_list)
 
