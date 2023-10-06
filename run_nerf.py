@@ -658,7 +658,7 @@ def train():
         images, poses, bds, render_poses, i_test = load_llff_data(args.datadir, args.factor,
                                                                   recenter=True, bd_factor=.75,
                                                                   spherify=args.spherify)
-        print(f"depth_gts: {depth_gts}")
+        #print(f"depth_gts: {depth_gts}")
 
         hwf = poses[0,:3,-1]
         poses = poses[:,:3,:4]
@@ -1092,7 +1092,10 @@ def train():
 
             filenames = [os.path.join(testsavedir, '{:03d}.png'.format(k)) for k in range(len(i_test))]
 
-            test_loss = img2mse(torch.Tensor(rgbs), images[i_test])
+            if images[i_test].device != device:
+                images[i_test].to(device)
+
+            test_loss = img2mse(torch.Tensor(rgbs, ).to(device), images[i_test])
             test_psnr = mse2psnr(test_loss)
 
     
