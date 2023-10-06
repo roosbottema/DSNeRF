@@ -338,20 +338,20 @@ def get_poses(images):
 
 def load_colmap_depth(basedir, factor=8, bd_factor=.75):
     data_file = Path(basedir) / 'colmap_depth.npy'
-    print("---------------------------------------------------------------------------------------")
-    print(f"----------------\n\nIn load_colmap_depth with directory {basedir}---------------------")
+
+    print(f"\n\nIn load_colmap_depth with directory {basedir}")
 
     images = read_images_binary(Path(basedir) / 'sparse' / '0' / 'images.bin')
     points = read_points3d_binary(Path(basedir) / 'sparse' / '0' / 'points3D.bin')
     print(f"type images {type(images)}")
     print(f"type points {type(points)}")
 
-    if images is not None:
-        print(f"images keys: {images.keys()}")
-        print(f"images values: {images.values()}\n\n")
-    if points is not None:
-        print(f"points keys: {points.keys()}")
-        print(f"points values: {points.values()}")
+#    if images is not None:
+#        print(f"images keys: {images.keys()}")
+#        print(f"images values: {images.values()}\n\n")
+#    if points is not None:
+#        print(f"points keys: {points.keys()}")
+#        print(f"points values: {points.values()}")
     Errs = np.array([point3D.error for point3D in points.values()])
     Err_mean = np.mean(Errs)
     print("Mean Projection Error:", Err_mean)
@@ -360,6 +360,7 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
 
     _, bds_raw, _ = _load_data(basedir, factor=factor) # factor=8 downsamples original imgs by 8x
     bds_raw = np.moveaxis(bds_raw, -1, 0).astype(np.float32)
+    print(f"type of bds_raw: {type(bds_raw)}")
     # print(bds_raw.shape)
     # Rescale if bd_factor is provided
     sc = 1. if bd_factor is None else 1./(bds_raw.min() * bd_factor)
@@ -376,11 +377,18 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
         for i in range(len(images[id_im].xys)):
             point2D = images[id_im].xys[i]
             id_3D = images[id_im].point3D_ids[i]
+            if i == 1:
+                print(f"point 2D: {point2D}")
             if id_3D == -1:
+                print(f"id_3D == -1")
                 continue
             point3D = points[id_3D].xyz
             depth = (poses[id_im-1,:3,2].T @ (point3D - poses[id_im-1,:3,3])) * sc
+            if i == 1:
+                print(f"depth: {depth}")
+
             if depth < bds_raw[id_im-1,0] * sc or depth > bds_raw[id_im-1,1] * sc:
+                print(f"error in depth calc")
                 continue
             err = points[id_3D].error
             weight = 2 * np.exp(-(err/Err_mean)**2)
