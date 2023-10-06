@@ -364,6 +364,7 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
     # print(bds_raw.shape)
     # Rescale if bd_factor is provided
     sc = 1. if bd_factor is None else 1./(bds_raw.min() * bd_factor)
+    print(f"sc: {sc}")
     
     near = np.ndarray.min(bds_raw) * .9 * sc
     far = np.ndarray.max(bds_raw) * 1. * sc
@@ -382,8 +383,8 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
                 continue
             point3D = points[id_3D].xyz
             depth = (poses[id_im-1,:3,2].T @ (point3D - poses[id_im-1,:3,3])) * sc
-            print(f"point3D: {point3D}")
-            print(f"depth: {depth}")
+            #print(f"point3D: {point3D}")
+            #print(f"depth: {depth}")
             if depth < bds_raw[id_im-1,0] * sc or depth > bds_raw[id_im-1,1] * sc:
                 #print(f"error in depth calc")
                 continue
