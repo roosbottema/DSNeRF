@@ -357,7 +357,7 @@ def load_colmap_depth(basedir, factor=8, bd_factor=.75):
     print("Mean Projection Error:", Err_mean)
     
     poses = get_poses(images)
-    print(f"poses: {poses}")
+    #print(f"poses: {poses}")
 
     _, bds_raw, _ = _load_data(basedir, factor=factor) # factor=8 downsamples original imgs by 8x
     bds_raw = np.moveaxis(bds_raw, -1, 0).astype(np.float32)
